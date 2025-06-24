@@ -1,7 +1,7 @@
 {
   "name": "tw-redeem",
   "version": "1.0.0",
-  "description": "Redeem TrueMoney vouchers with retry support",
+  "description": "Redeem อั่งเปา True Money Wallet ด้วย Node.js",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -22,5 +22,13 @@
   "type": "commonjs",
   "dependencies": {
     "typescript": "^5.8.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Phone3415/tw-redeem.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Phone3415/tw-redeem/issues"
+  },
+  "homepage": "https://github.com/Phone3415/tw-redeem#readme"
 }
