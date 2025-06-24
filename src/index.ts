@@ -1,9 +1,9 @@
 import retry from "./retry";
 
-type BahtAmount = string;
-type MobileNumber = string;
-type ProfilePicURL = string | null;
-type Timestamp = number;
+export type BahtAmount = string;
+export type MobileNumber = string;
+export type ProfilePicURL = string | null;
+export type Timestamp = number;
 
 export interface TicketInfo {
   mobile: MobileNumber;
