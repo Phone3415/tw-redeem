@@ -1,0 +1,26 @@
+{
+  "name": "tw-redeem",
+  "version": "1.0.0",
+  "description": "Redeem TrueMoney vouchers with retry support",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "truemoney",
+    "voucher",
+    "redeem",
+    "api",
+    "node",
+    "typescript",
+    "ts",
+    "js"
+  ],
+  "author": "Phone3415",
+  "license": "GPL",
+  "type": "commonjs",
+  "dependencies": {
+    "typescript": "^5.8.3"
+  }
+}
