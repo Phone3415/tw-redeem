@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.simplify = simplify;
 var retry_1 = __importDefault(require("./retry"));
 var Invalid;
 (function (Invalid) {
@@ -105,5 +106,13 @@ function redeemVoucher(mobileNumber, voucherLink) {
             }
         });
     });
+}
+function simplify(voucher) {
+    var data = voucher.data;
+    return {
+        owner_full_name: data.owner_profile.full_name,
+        amount: Number(data.my_ticket.amount_baht),
+        code: data.voucher.link,
+    };
 }
 exports.default = redeemVoucher;

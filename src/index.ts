@@ -4,6 +4,7 @@ export type BahtAmount = string;
 export type MobileNumber = string;
 export type ProfilePicURL = string | null;
 export type Timestamp = number;
+export type VoucherCode = string;
 
 export interface TicketInfo {
   mobile: MobileNumber;
@@ -19,7 +20,7 @@ export interface VoucherData {
   redeemed_amount_baht: BahtAmount;
   member: number;
   status: string;
-  link: string;
+  link: VoucherCode;
   detail: string;
   expire_date: Timestamp;
   type: string;
@@ -43,6 +44,12 @@ export interface Voucher {
     my_ticket: TicketInfo;
     tickets: TicketInfo[];
   };
+}
+
+export interface simplifiedVoucher {
+  owner_full_name: string;
+  amount: number;
+  code: VoucherCode;
 }
 
 enum Invalid {
@@ -106,6 +113,16 @@ async function redeemVoucher(
   } catch (error) {
     throw error;
   }
+}
+
+export function simplify(voucher: Voucher): simplifiedVoucher {
+  const { data } = voucher;
+
+  return {
+    owner_full_name: data.owner_profile.full_name,
+    amount: Number(data.my_ticket.amount_baht),
+    code: data.voucher.link,
+  };
 }
 
 export default redeemVoucher;

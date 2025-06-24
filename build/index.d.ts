@@ -2,6 +2,7 @@ export type BahtAmount = string;
 export type MobileNumber = string;
 export type ProfilePicURL = string | null;
 export type Timestamp = number;
+export type VoucherCode = string;
 export interface TicketInfo {
     mobile: MobileNumber;
     update_date: Timestamp;
@@ -15,7 +16,7 @@ export interface VoucherData {
     redeemed_amount_baht: BahtAmount;
     member: number;
     status: string;
-    link: string;
+    link: VoucherCode;
     detail: string;
     expire_date: Timestamp;
     type: string;
@@ -39,5 +40,11 @@ export interface Voucher {
         tickets: TicketInfo[];
     };
 }
+export interface simplifiedVoucher {
+    owner_full_name: string;
+    amount: number;
+    code: VoucherCode;
+}
 declare function redeemVoucher(mobileNumber: MobileNumber, voucherLink: string): Promise<Voucher>;
+export declare function simplify(voucher: Voucher): simplifiedVoucher;
 export default redeemVoucher;
