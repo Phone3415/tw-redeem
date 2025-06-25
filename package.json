@@ -1,5 +1,5 @@
 {
-  "name": "tw-redeem",
+  "name": "@phone3415/tw-redeem",
   "version": "1.0.0",
   "description": "Redeem อั่งเปา True Money Wallet ด้วย Node.js",
   "main": "build/index.js",
