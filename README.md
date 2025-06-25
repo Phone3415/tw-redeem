@@ -11,22 +11,22 @@
 
 ## Installation
 ```sh
-npm i @phone3415/tw-redeem
+npm i truemoney-voucher
 ```
 
 ## Example
 
 ### JavaScript
 ```js
-const twVoucher = require("@phone3415/tw-redeem");
+const twVoucher = require("truemoney-voucher");
 
-/** @type {import("@phone3415/tw-redeem").Voucher} */
+/** @type {import("truemoney-voucher").Voucher} */
 twVoucher("เบอร์", "อั่งเปา").then(console.log);
 ```
 
 ### Typescript
 ```ts
-import twVoucher from "@phone3415/tw-redeem";
+import twVoucher from "truemoney-voucher";
 
 twVoucher("เบอร์", "อั่งเปา").then(console.log);
 ```
