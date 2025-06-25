@@ -142,7 +142,7 @@ async function sendAPIRequest(
  *
  * @example
  * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
- * /** @type {import("truemoney-voucher").Voucher} *\/
+ * /** @type {import("tw-voucher").Voucher} *\/
  * const result = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
  * console.log(result.data.voucher.voucher_id);
  */
@@ -189,7 +189,7 @@ async function redeemVoucher(
  * const response = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
  *
  * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
- * /** @type {import("truemoney-voucher").simplifiedVoucher} *\/
+ * /** @type {import("tw-voucher").simplifiedVoucher} *\/
  * const result = simplify(response);
  * console.log(result.owner_full_name);
  */
