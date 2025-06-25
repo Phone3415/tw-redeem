@@ -45,6 +45,33 @@ export interface simplifiedVoucher {
     amount: number;
     code: VoucherCode;
 }
+/**
+ * ส่งคำขอไปยัง API เพื่อใช้ซองอั่งเปา
+ *
+ * @param {string} mobileNumber - หมายเลขบัญชี TrueMoney Wallet
+ * @param {string} voucherLink - ลิงก์หรือโค้ดซองอั่งเปา
+ * @returns {Promise<Voucher>} Promise ที่คืนข้อมูล Voucher
+ *
+ * @example
+ * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
+ * /** @type {Voucher} *\/
+ * const result = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
+ * console.log(result.data.voucher.voucher_id);
+ */
 declare function redeemVoucher(mobileNumber: MobileNumber, voucherLink: string): Promise<Voucher>;
+/**
+ * ย่อการตอบกลับจาก API เพื่อให้ใช้งานง่ายขึ้น
+ *
+ * @param {Voucher} voucher - ผลลัพธ์สุดท้ายที่ได้จาก redeemVoucher
+ * @returns {simplifiedVoucher} ข้อมูล Voucher แบบย่อ
+ *
+ * @example
+ * const response = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
+ *
+ * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
+ * /** @type {simplifiedVoucher} *\/
+ * const result = simplify(response);
+ * console.log(result.owner_full_name);
+ */
 export declare function simplify(voucher: Voucher): simplifiedVoucher;
 export default redeemVoucher;

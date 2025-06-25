@@ -41,6 +41,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.simplify = simplify;
 var retry_1 = __importDefault(require("./retry"));
+/**
+ * @typedef {string} BahtAmount
+ * @typedef {string} MobileNumber
+ * @typedef {string | null} ProfilePicURL
+ * @typedef {number} Timestamp
+ * @typedef {string} VoucherCode
+ */
+/**
+ * @typedef {Object} TicketInfo
+ * @property {MobileNumber} mobile
+ * @property {Timestamp} update_date
+ * @property {BahtAmount} amount_baht
+ * @property {string} full_name
+ * @property {ProfilePicURL} profile_pic
+ */
+/**
+ * @typedef {Object} VoucherData
+ * @property {string} voucher_id
+ * @property {BahtAmount} amount_baht
+ * @property {BahtAmount} redeemed_amount_baht
+ * @property {number} member
+ * @property {string} status
+ * @property {VoucherCode} link
+ * @property {string} detail
+ * @property {Timestamp} expire_date
+ * @property {string} type
+ * @property {number} redeemed
+ * @property {number} available
+ */
+/**
+ * @typedef {Object} Voucher
+ * @property {{ message: string, code: string }} status
+ * @property {{
+ *   voucher: VoucherData,
+ *   owner_profile: { full_name: string },
+ *   redeemer_profile: { mobile_number: MobileNumber },
+ *   my_ticket: TicketInfo,
+ *   tickets: TicketInfo[]
+ * }} data
+ */
+/**
+ * @typedef {Object} simplifiedVoucher
+ * @property {string} owner_full_name
+ * @property {number} amount
+ * @property {VoucherCode} code
+ */
 var Invalid;
 (function (Invalid) {
     Invalid["NUMBER"] = "INVALID_NUMBER";
@@ -71,6 +117,19 @@ function sendAPIRequest(mobile, voucher_hash) {
         });
     });
 }
+/**
+ * ส่งคำขอไปยัง API เพื่อใช้ซองอั่งเปา
+ *
+ * @param {string} mobileNumber - หมายเลขบัญชี TrueMoney Wallet
+ * @param {string} voucherLink - ลิงก์หรือโค้ดซองอั่งเปา
+ * @returns {Promise<Voucher>} Promise ที่คืนข้อมูล Voucher
+ *
+ * @example
+ * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
+ * /** @type {Voucher} *\/
+ * const result = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
+ * console.log(result.data.voucher.voucher_id);
+ */
 function redeemVoucher(mobileNumber, voucherLink) {
     return __awaiter(this, void 0, void 0, function () {
         var parts, part, matchedPart, voucherCode, jsonResponse, error_1;
@@ -107,6 +166,20 @@ function redeemVoucher(mobileNumber, voucherLink) {
         });
     });
 }
+/**
+ * ย่อการตอบกลับจาก API เพื่อให้ใช้งานง่ายขึ้น
+ *
+ * @param {Voucher} voucher - ผลลัพธ์สุดท้ายที่ได้จาก redeemVoucher
+ * @returns {simplifiedVoucher} ข้อมูล Voucher แบบย่อ
+ *
+ * @example
+ * const response = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
+ *
+ * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
+ * /** @type {simplifiedVoucher} *\/
+ * const result = simplify(response);
+ * console.log(result.owner_full_name);
+ */
 function simplify(voucher) {
     var data = voucher.data;
     return {
