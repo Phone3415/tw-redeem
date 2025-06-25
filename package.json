@@ -18,7 +18,7 @@
     "js"
   ],
   "author": "Phone3415",
-  "license": "GPL",
+  "license": "GPL-3.0",
   "type": "commonjs",
   "dependencies": {
     "typescript": "^5.8.3"
