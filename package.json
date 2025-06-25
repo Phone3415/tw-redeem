@@ -20,7 +20,7 @@
   "author": "Phone3415",
   "license": "GPL-3.0",
   "type": "commonjs",
-  "dependencies": {
+  "devDependencies": {
     "typescript": "^5.8.3"
   },
   "repository": {
