@@ -54,7 +54,7 @@ export interface simplifiedVoucher {
  *
  * @example
  * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
- * /** @type {Voucher} *\/
+ * /** @type {import("tw-voucher").Voucher} *\/
  * const result = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
  * console.log(result.data.voucher.voucher_id);
  */
@@ -69,7 +69,7 @@ declare function redeemVoucher(mobileNumber: MobileNumber, voucherLink: string):
  * const response = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
  *
  * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
- * /** @type {simplifiedVoucher} *\/
+ * /** @type {import("tw-voucher").simplifiedVoucher} *\/
  * const result = simplify(response);
  * console.log(result.owner_full_name);
  */

@@ -21,7 +21,7 @@
   "license": "GPL-3.0",
   "type": "commonjs",
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/Phone3415/tw-redeem/issues"
   },
-  "homepage": "https://github.com/Phone3415/tw-redeem#readme"
+  "homepage": "https://github.com/Phone3415/tw-redeem#readme",
+  "dependencies": {
+    "undici": "^7.24.4"
+  }
 }

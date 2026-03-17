@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.simplify = simplify;
 var retry_1 = __importDefault(require("./retry"));
+var undici_1 = require("undici");
 /**
  * @typedef {string} BahtAmount
  * @typedef {string} MobileNumber
@@ -92,6 +93,12 @@ var Invalid;
     Invalid["NUMBER"] = "INVALID_NUMBER";
     Invalid["VOUCHER"] = "INVALID_VOUCHER";
 })(Invalid || (Invalid = {}));
+var AGENT = new undici_1.Agent({
+    connect: {
+        minVersion: "TLSv1.3",
+        maxVersion: "TLSv1.3",
+    },
+});
 function fetchFailedMessage(response) {
     return "Network Error: ".concat(response.status, " ").concat(response.statusText);
 }
@@ -102,11 +109,17 @@ function sendAPIRequest(mobile, voucher_hash) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, fetch("https://gift.truemoney.com/campaign/vouchers/".concat(voucher_hash, "/redeem"), {
                         method: "POST",
-                        headers: { "content-type": "application/json" },
+                        headers: {
+                            accept: "application/json",
+                            "content-type": "application/json",
+                            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+                            origin: "https://gift.truemoney.com",
+                            referer: "https://gift.truemoney.com/campaign/?v=".concat(voucher_hash),
+                        },
                         body: JSON.stringify({
                             mobile: mobile,
-                            voucher_hash: voucher_hash,
                         }),
+                        dispatcher: AGENT,
                     })];
                 case 1:
                     response = _a.sent();
@@ -126,7 +139,7 @@ function sendAPIRequest(mobile, voucher_hash) {
  *
  * @example
  * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
- * /** @type {Voucher} *\/
+ * /** @type {import("tw-voucher").Voucher} *\/
  * const result = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
  * console.log(result.data.voucher.voucher_id);
  */
@@ -176,7 +189,7 @@ function redeemVoucher(mobileNumber, voucherLink) {
  * const response = await redeemVoucher("0382149845", "0197a3ca6ecb7b4aa07632f832159fc982S");
  *
  * // ใช้ร่วมกับ @type เพื่อให้มี auto-complete
- * /** @type {simplifiedVoucher} *\/
+ * /** @type {import("tw-voucher").simplifiedVoucher} *\/
  * const result = simplify(response);
  * console.log(result.owner_full_name);
  */

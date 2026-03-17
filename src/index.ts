@@ -1,4 +1,5 @@
 import retry from "./retry";
+import { Agent } from "undici";
 
 export type BahtAmount = string;
 export type MobileNumber = string;
@@ -108,24 +109,38 @@ enum Invalid {
   VOUCHER = "INVALID_VOUCHER",
 }
 
+const AGENT = new Agent({
+  connect: {
+    minVersion: "TLSv1.3",
+    maxVersion: "TLSv1.3",
+  },
+});
+
 function fetchFailedMessage(response: Response): string {
   return `Network Error: ${response.status} ${response.statusText}`;
 }
 
 async function sendAPIRequest(
   mobile: MobileNumber,
-  voucher_hash: string
+  voucher_hash: string,
 ): Promise<Voucher> {
   const response = await fetch(
     `https://gift.truemoney.com/campaign/vouchers/${voucher_hash}/redeem`,
     {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        "user-agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+        origin: "https://gift.truemoney.com",
+        referer: `https://gift.truemoney.com/campaign/?v=${voucher_hash}`,
+      },
       body: JSON.stringify({
         mobile,
-        voucher_hash,
       }),
-    }
+      dispatcher: AGENT,
+    },
   );
 
   if (!response.ok) throw new Error(fetchFailedMessage(response));
@@ -148,7 +163,7 @@ async function sendAPIRequest(
  */
 async function redeemVoucher(
   mobileNumber: MobileNumber,
-  voucherLink: string
+  voucherLink: string,
 ): Promise<Voucher> {
   mobileNumber = mobileNumber.toString().trim();
   if (mobileNumber.length === 0 || mobileNumber.match(/\D/)) {
@@ -166,7 +181,7 @@ async function redeemVoucher(
 
   try {
     const jsonResponse = await retry(() =>
-      sendAPIRequest(mobileNumber, voucherCode)
+      sendAPIRequest(mobileNumber, voucherCode),
     );
 
     if (jsonResponse.status.code === "SUCCESS") {
